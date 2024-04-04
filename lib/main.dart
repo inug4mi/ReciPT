@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gptest1/env/env.dart';
 import 'package:gptest1/home.dart';
 
-//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
+//
 void main() {
   OpenAI.apiKey = Env.key1;
   runApp(const MyApp());
