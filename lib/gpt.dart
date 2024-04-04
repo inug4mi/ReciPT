@@ -1,0 +1,3 @@
+class gpt {
+  String input = "";
+}

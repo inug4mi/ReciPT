@@ -1,0 +1,13 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'env.dart';
+
+// **************************************************************************
+// EnviedGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env {
+  static const key1 = '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';
+}
