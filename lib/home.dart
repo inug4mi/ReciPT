@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'dart:developer';
+import 'package:gptest1/response_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -19,6 +20,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('ReciPT')),
+        backgroundColor: Color.fromARGB(255, 104, 206, 153),
       ),
       body: Center(
         child: Column(
@@ -62,22 +64,36 @@ class _HomeState extends State<Home> {
                                 userMessage,
                               ],
                               seed: 423,
-                              n: 2,
+                              n: 1,
                             );
-
-// Listen to the stream.
+                            // Listen to the stream.
+                            List<String?> texts = [];
+                            String output = "";
                             chatStream.listen(
                               (streamChatCompletion) {
                                 final content = streamChatCompletion
                                     .choices.first.delta.content;
-                                log('data: $content');
+                                // Extract and concatenate the 'text' values
+                                String? text = content
+                                    ?.map((item) => item?.text ?? "")
+                                    .join();
+                                texts.add(text);
                               },
                               onDone: () {
                                 log("Done");
+                                // Join all text items into a single string
+                                output = texts.join();
+                                log("Output: $output");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ResponsePage(output: output)),
+                                );
                               },
                             );
 
-                            Navigator.of(context).pop();
+                            //Navigator.of(context).pop();
                           },
                           child: Text('Submit'),
                         ),
@@ -86,20 +102,24 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
-              child: Text('Open Popup'),
+              child: const Text(
+                'Look up custom recipes',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
+                    return const AlertDialog(
                       title: Text('Hello Random'),
                     );
                   },
                 );
               },
-              child: Text('Random'),
+              child: const Text('Make random recipe',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
         ),
